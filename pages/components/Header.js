@@ -45,7 +45,7 @@ const Header = () => {
           <Menu className='h-10 w-10 md:hidden cursor-pointer' />
           <div className='relative'>
             <Send className='navBtn rotate-[-60deg]' />
-            <div className='absolute -top-0 -right-0 bg-red-500 rounded-full flex items-center justify-center text-xs w-5 h-5 text-white animate-pulse'>
+            <div className='absolute -top-0 -right-0 bg-red-500 rounded-full flex items-center justify-center text-xs w-5 h-5 text-white animate-pulse xs:hidden'>
               3
             </div>
           </div>

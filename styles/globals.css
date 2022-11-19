@@ -4,7 +4,7 @@
 
 @layer components {
   .navBtn {
-    @apply hidden h-10 w-8 ml-3 text-gray-500 md:inline-flex cursor-pointer hover:scale-125 transition-all duration-150 ease-out;
+    @apply hidden h-10 w-8 ml-3 md:inline-flex cursor-pointer hover:scale-125 transition-all duration-150 ease-out;
   }
 
   .btn {
