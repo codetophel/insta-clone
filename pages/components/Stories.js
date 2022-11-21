@@ -18,11 +18,11 @@ const Stories = () => {
   }, []);
 
   return (
-    <div className='flex items-center space-x-2 mt-2 p-6 bg-white border-gray-200 border rounded-lg overflow-x-scroll scrollbar-thin scrollbar-thumb-black'>
+    <div className='flex items-center space-x-2 mt-2 p-6 bg-white border-gray-200 border rounded-lg overflow-x-scroll scrollbar-thin scrollbar-thin-black'>
       {suggestions.map((profile) => {
         return (
           <Story
-            key={profile.userid}
+            key={profile.userId}
             username={profile.username}
             avatar={profile.avatar}
           />

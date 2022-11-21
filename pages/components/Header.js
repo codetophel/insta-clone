@@ -7,8 +7,11 @@ import {
   Menu,
   Home,
 } from '@mui/icons-material';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 const Header = () => {
+  const { data: session } = useSession();
+
   return (
     <div className='shadow-sm border-b bg-white sticky top-0 z-50 pb-3'>
       {/* left */}
@@ -43,20 +46,28 @@ const Header = () => {
         <div className='flex'>
           <Home className='navBtn' />
           <Menu className='h-10 w-10 md:hidden cursor-pointer' />
-          <div className='relative'>
-            <Send className='navBtn rotate-[-60deg]' />
-            <div className='absolute -top-0 -right-0 bg-red-500 rounded-full flex items-center justify-center text-xs w-5 h-5 text-white animate-pulse xs:hidden'>
-              3
-            </div>
-          </div>
-          <AddCircleOutline className='navBtn' />
-          <Group className='navBtn' />
-          <FavoriteBorder className='navBtn' />
 
-          <img
-            src='https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/4065648.png&w=350&h=254'
-            className='ml-5 h-10 w-10 rounded-full'
-          />
+          {session ? (
+            <>
+              <div className='relative'>
+                <Send className='navBtn rotate-[-60deg]' />
+                <div className='absolute -top-0 -right-0 bg-red-500 rounded-full flex items-center justify-center text-xs w-5 h-5 text-white animate-pulse xs:hidden'>
+                  3
+                </div>
+              </div>
+              <AddCircleOutline className='navBtn' />
+              <Group className='navBtn' />
+              <FavoriteBorder className='navBtn' />
+
+              <img
+                onClick={signOut}
+                src={session.user.image}
+                className='ml-5 h-10 w-10 rounded-full'
+              />
+            </>
+          ) : (
+            <button onClick={signIn}>SignIn</button>
+          )}
         </div>
       </div>
     </div>
