@@ -28,7 +28,7 @@ const Header = () => {
         </div>
 
         {/* middle - search */}
-        <div className='relative rounded-md max-w-xs'>
+        <div className='hidden md:block relative rounded-md max-w-xs'>
           <div className='absolute pl-3 flex items-center pointer-events-none  '>
             <Search className='h-6 w-6 mt-2 text-gray-500 ' />
           </div>
