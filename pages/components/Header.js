@@ -8,22 +8,33 @@ import {
   Home,
 } from '@mui/icons-material';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { openModal } from '../features/modalSlice';
 
 const Header = () => {
   const { data: session } = useSession();
+  const router = useRouter();
+  const dispatch = useDispatch(openModal);
 
   return (
     <div className='shadow-sm border-b bg-white sticky top-0 z-50 pb-3'>
       {/* left */}
       <div className='flex justify-between pt-5 max-w-6xl mx-5 lg:mx-auto'>
-        <div className='relative hidden lg:inline-grid cursor-pointer'>
+        <div
+          onClick={() => router.push('/')}
+          className='relative hidden lg:inline-grid cursor-pointer'
+        >
           <img
             src='https://cdn.cdnlogo.com/logos/i/91/instagram.svg'
             className='h-10 w-15 object-contain'
           />
         </div>
 
-        <div className='relative w-10 h-10 lg:hidden flex-shrink-0 cursor-pointer'>
+        <div
+          onClick={() => router.push('/')}
+          className='relative w-10 h-10 lg:hidden flex-shrink-0 cursor-pointer'
+        >
           <img
             src='https://cdn.cdnlogo.com/logos/i/21/instagram-glyph.svg'
             className='object-contain'
@@ -44,9 +55,8 @@ const Header = () => {
 
         {/* right */}
         <div className='flex'>
-          <Home className='navBtn' />
+          <Home onClick={() => router.push('/')} className='navBtn' />
           <Menu className='h-10 w-10 md:hidden cursor-pointer' />
-
           {session ? (
             <>
               <div className='relative'>
@@ -55,7 +65,10 @@ const Header = () => {
                   3
                 </div>
               </div>
-              <AddCircleOutline className='navBtn' />
+              <AddCircleOutline
+                onClick={() => dispatch(openModal())}
+                className='navBtn'
+              />
               <Group className='navBtn' />
               <FavoriteBorder className='navBtn' />
 

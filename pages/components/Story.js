@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Story = ({ id, avatar, username }) => {
+const Story = ({ avatar, username }) => {
   return (
     <div>
       <img
