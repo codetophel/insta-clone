@@ -7,6 +7,7 @@ import { db, storage } from '../../db/firebase';
 import {
   addDoc,
   collection,
+  doc,
   serverTimestamp,
   updateDoc,
 } from 'firebase/firestore';
@@ -50,17 +51,12 @@ const Modal = () => {
     await uploadString(imageRef, selectedFile, 'data_url').then(
       async (snapshot) => {
         const downloadURL = await getDownloadURL(imageRef);
+        console.log(downloadURL);
 
         //get a download url from db storage to display on feed
-        await updateDoc(
-          doc,
-          (db,
-          'posts',
-          docRef.id,
-          {
-            image: downloadURL,
-          })
-        );
+        await updateDoc(doc(db, 'posts', docRef.id), {
+          image: downloadURL,
+        });
       }
     );
 
