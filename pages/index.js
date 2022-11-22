@@ -3,7 +3,7 @@ import Header from './components/Header';
 import Feed from './components/Feed';
 import Modal from './components/Modal';
 import { selectModalStatus } from './features/modalSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export default function Home() {
   const modalStatus = useSelector(selectModalStatus);
