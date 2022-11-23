@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   BookmarkBorderRounded,
   FavoriteBorder,
+  FavoriteRounded,
   MapsUgcRounded,
   MoreHoriz,
   SendRounded,
@@ -11,10 +12,13 @@ import { useSession } from 'next-auth/react';
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
+  setDoc,
 } from 'firebase/firestore';
 import { db } from '../../db/firebase';
 import Comment from './Comment';
@@ -23,6 +27,8 @@ const Post = ({ id, username, userImg, caption, img }) => {
   const { data: session } = useSession();
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
+  const [likes, setLikes] = useState([]);
+  const [hasliked, setHasliked] = useState(false);
 
   useEffect(() => {
     onSnapshot(
@@ -34,7 +40,33 @@ const Post = ({ id, username, userImg, caption, img }) => {
         setComments(snapshot.docs);
       }
     );
-  }, [db]);
+  }, [db, id]);
+
+  useEffect(() => {
+    //updates the likes db with each likes using id
+    onSnapshot(query(collection(db, 'posts', id, 'likes')), (snapshot) => {
+      setLikes(snapshot.docs);
+    });
+  }, [db, id]);
+
+  // to check a liked post and toggle if clicked
+  useEffect(() => {
+    setHasliked(
+      likes.findIndex((like) => like.id === session?.user?.uid) !== -1
+    );
+  }, [likes]);
+
+  const likePost = async () => {
+    if (hasliked) {
+      // delete username if user has liked the post already and unlike
+      await deleteDoc(doc(db, 'posts', id, 'likes', session.user.uid));
+    } else {
+      //adding like details to db
+      await setDoc(doc(db, 'posts', id, 'likes', session.user.uid), {
+        username: session.user.username,
+      });
+    }
+  };
 
   const sendComment = async (e) => {
     e.preventDefault();
@@ -70,7 +102,14 @@ const Post = ({ id, username, userImg, caption, img }) => {
       {session && (
         <div className='flex justify-between px-4 pt-4'>
           <div className='flex space-x-4'>
-            <FavoriteBorder className='btn' />
+            {hasliked ? (
+              <FavoriteRounded
+                onClick={likePost}
+                className='btn text-red-500'
+              />
+            ) : (
+              <FavoriteBorder onClick={likePost} className='btn' />
+            )}
             <MapsUgcRounded className='btn' />
             <SendRounded className='rotate-[-45deg] btn' />
           </div>
