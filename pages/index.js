@@ -2,8 +2,8 @@ import Head from 'next/head';
 import Header from './components/Header';
 import Feed from './components/Feed';
 import Modal from './components/Modal';
-import { selectModalStatus } from './features/modalSlice';
 import { useSelector } from 'react-redux';
+import { selectModalStatus } from '../features/modalSlice';
 
 export default function Home() {
   const modalStatus = useSelector(selectModalStatus);

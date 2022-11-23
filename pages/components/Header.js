@@ -11,7 +11,7 @@ import {
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
-import { openModal } from '../features/modalSlice';
+import { openModal } from '../../features/modalSlice';
 
 const Header = () => {
   const { data: session } = useSession();

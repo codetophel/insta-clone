@@ -1,6 +1,5 @@
 import React, { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { closeModal } from '../features/modalSlice';
 import { useDispatch } from 'react-redux';
 import { CameraAltRounded } from '@mui/icons-material';
 import { db, storage } from '../../db/firebase';
@@ -13,6 +12,7 @@ import {
 } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { closeModal } from '../../features/modalSlice';
 
 const Modal = () => {
   const dispatch = useDispatch(closeModal);
