@@ -13,14 +13,13 @@ const Posts = () => {
     );
   }, [db]);
 
-  console.log(posts);
-
   return (
     <div>
       {posts.map((post) => {
         return (
           <Post
             key={post.id}
+            id={post.id}
             username={post.data().username}
             userImg={post.data().profileImg}
             img={post.data().image}

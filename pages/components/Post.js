@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BookmarkBorderRounded,
   FavoriteBorder,
@@ -7,8 +7,49 @@ import {
   SendRounded,
   SentimentDissatisfiedRounded,
 } from '@mui/icons-material';
+import { useSession } from 'next-auth/react';
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+} from 'firebase/firestore';
+import { db } from '../../db/firebase';
+import Comment from './Comment';
 
 const Post = ({ id, username, userImg, caption, img }) => {
+  const { data: session } = useSession();
+  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    onSnapshot(
+      query(
+        collection(db, 'posts', id, 'comments'),
+        orderBy('timestamp', 'desc')
+      ),
+      (snapshot) => {
+        setComments(snapshot.docs);
+      }
+    );
+  }, [db]);
+
+  const sendComment = async (e) => {
+    e.preventDefault();
+
+    const commentToSend = comment;
+    setComment('');
+
+    await addDoc(collection(db, 'posts', id, 'comments'), {
+      comment: commentToSend,
+      username: session.user.username,
+      userImage: session.user.image,
+      timestamp: serverTimestamp(),
+    });
+  };
+
   return (
     <div className='bg-white my-7 border rounded-lg'>
       {/* Header */}
@@ -26,14 +67,16 @@ const Post = ({ id, username, userImg, caption, img }) => {
       <img src={img} className='object-cover w-full' alt='' />
 
       {/* buttons */}
-      <div className='flex justify-between px-4 pt-4'>
-        <div className='flex space-x-4'>
-          <FavoriteBorder className='btn' />
-          <MapsUgcRounded className='btn' />
-          <SendRounded className='rotate-[-45deg] btn' />
+      {session && (
+        <div className='flex justify-between px-4 pt-4'>
+          <div className='flex space-x-4'>
+            <FavoriteBorder className='btn' />
+            <MapsUgcRounded className='btn' />
+            <SendRounded className='rotate-[-45deg] btn' />
+          </div>
+          <BookmarkBorderRounded className='btn' />
         </div>
-        <BookmarkBorderRounded className='btn' />
-      </div>
+      )}
 
       {/* caption */}
       <p className='truncate p-5'>
@@ -43,16 +86,45 @@ const Post = ({ id, username, userImg, caption, img }) => {
 
       {/* comments */}
 
+      {comments.length > 0 && (
+        <div className='ml-5 h-20 overflow-y-scroll scrollbar-thin scrollbar-thumb-black'>
+          {comments.map((comment) => {
+            return (
+              <Comment
+                key={comment.id}
+                id={comment.id}
+                img={comment.data().userImage}
+                comment={comment.data().comment}
+                username={comment.data().username}
+                timestamp={comment.data().timestamp}
+              />
+            );
+          })}
+        </div>
+      )}
+
       {/* input box */}
-      <form className='flex items-center p-4 border-t'>
-        <SentimentDissatisfiedRounded className='h-7' />
-        <input
-          type='text'
-          placeholder='Add a comment...'
-          className='border-none flex-1 focus:ring-0 outline-none'
-        />
-        <button className='text-blue-400 font-semi-bold'>Post</button>
-      </form>
+
+      {session && (
+        <form className='flex items-center p-4 border-t'>
+          <SentimentDissatisfiedRounded className='h-7' />
+          <input
+            type='text'
+            placeholder='Add a comment...'
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            className='border-none flex-1 focus:ring-0 outline-none'
+          />
+          <button
+            type='submit'
+            onClick={sendComment}
+            disabled={!comment.trim()}
+            className='text-blue-400 font-semi-bold'
+          >
+            Post
+          </button>
+        </form>
+      )}
     </div>
   );
 };
