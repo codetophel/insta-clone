@@ -6,6 +6,7 @@ import {
   Send,
   Menu,
   Home,
+  AddBoxOutlined,
 } from '@mui/icons-material';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -56,12 +57,15 @@ const Header = () => {
         {/* right */}
         <div className='flex'>
           <Home onClick={() => router.push('/')} className='navBtn' />
-          <Menu className='h-10 w-10 md:hidden cursor-pointer' />
           {session ? (
             <>
+              <AddBoxOutlined
+                className='h-10 w-10 md:hidden cursor-pointer'
+                onClick={() => dispatch(openModal())}
+              />
               <div className='relative'>
                 <Send className='navBtn rotate-[-60deg]' />
-                <div className='absolute -top-0 -right-0 bg-red-500 rounded-full flex items-center justify-center text-xs w-5 h-5 text-white animate-pulse xs:hidden'>
+                <div className='absolute -top-0 -right-0 bg-red-500 rounded-full flex items-center justify-center text-xs w-5 h-5 text-white animate-pulse xs:hidden sm:hidden md:block md:text-center'>
                   3
                 </div>
               </div>
