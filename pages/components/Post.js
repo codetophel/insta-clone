@@ -119,6 +119,9 @@ const Post = ({ id, username, userImg, caption, img }) => {
 
       {/* caption */}
       <p className='truncate p-5'>
+        {likes.length > 0 && (
+          <p className='font-bold mb-1'>{likes.length} likes</p>
+        )}
         <span className='font-bold mr-1'>{username} </span>
         {caption}{' '}
       </p>
@@ -126,7 +129,7 @@ const Post = ({ id, username, userImg, caption, img }) => {
       {/* comments */}
 
       {comments.length > 0 && (
-        <div className='ml-5 h-20 overflow-y-scroll scrollbar-thin scrollbar-thumb-black'>
+        <div className='ml-5 h-20 overflow-y-scroll scrollbar-thin scrollbar-thumb-[gray]'>
           {comments.map((comment) => {
             return (
               <Comment
