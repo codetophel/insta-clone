@@ -4,10 +4,8 @@ import {
   FavoriteBorder,
   AddCircleOutline,
   Send,
-  Home,
   AddBoxOutlined,
 } from '@mui/icons-material';
-import Button from '@mui/material/Button';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
@@ -83,12 +81,12 @@ const Header = () => {
               />
             </>
           ) : (
-            <Button
-              className='text-black bg-white hover:bg-gray-100 border-2 shadow-lg'
+            <button
+              className='text-black bg-white hover:bg-gray-100 border-2 rounded-md shadow-md px-4'
               onClick={signIn}
             >
               Sign In
-            </Button>
+            </button>
           )}
         </div>
       </div>
