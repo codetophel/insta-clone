@@ -4,10 +4,10 @@ import {
   FavoriteBorder,
   AddCircleOutline,
   Send,
-  Menu,
   Home,
   AddBoxOutlined,
 } from '@mui/icons-material';
+import Button from '@mui/material/Button';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
@@ -56,7 +56,7 @@ const Header = () => {
 
         {/* right */}
         <div className='flex'>
-          <Home onClick={() => router.push('/')} className='navBtn' />
+          {/* <Home onClick={() => router.push('/')} className='navBtn' /> */}
           {session ? (
             <>
               <AddBoxOutlined
@@ -83,7 +83,9 @@ const Header = () => {
               />
             </>
           ) : (
-            <button onClick={signIn}>SignIn</button>
+            <Button variant='contained' className='text-black' onClick={signIn}>
+              Sign In
+            </Button>
           )}
         </div>
       </div>
