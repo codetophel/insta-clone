@@ -84,8 +84,7 @@ const Header = () => {
             </>
           ) : (
             <Button
-              variant='contained'
-              className='text-black hover:bg-white'
+              className='text-black bg-white hover:bg-gray-100 border-2 shadow-lg'
               onClick={signIn}
             >
               Sign In
