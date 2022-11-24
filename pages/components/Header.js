@@ -82,7 +82,7 @@ const Header = () => {
             </>
           ) : (
             <button
-              className='text-black bg-white hover:bg-gray-100 border-2 rounded-md shadow-md px-4'
+              className='!text-black  bg-white hover:bg-gray-100 border-2 rounded-md shadow-md px-4'
               onClick={signIn}
             >
               Sign In
